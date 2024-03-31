@@ -3,33 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic-Tac-Toe</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Welcome to Adaptive Tic-Tac-Toe</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffe7c2b6;
+            padding-top: 200px;
+        }
+        .container {
+            padding-top: 100px;
+            max-width: 600px;
+        }
+        .btn-upload {
+            margin-top: 20px;
+        }
+        .tic-tac-toe{
+            padding-top: 100px;
+            text-align:center;
+        }
+        .card{
+            text-align:center;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            background-color: #ac9b8dde ;
+        }
+        .btn-submit{
+            padding-top: 30px;
+            padding-right: 100px;
+            padding-left: 100px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Tic-Tac-Toe Game</h1>
-    <div id="game-board">
-        {% for row in range(3) %}
-            <div class="row">
-                {% for col in range(3) %}
-                    <div class="cell" id="cell-{{ row }}-{{ col }}"></div>
-                {% endfor %}
+    <h1 class="text-center">Welcome to Adaptive Tic-Tac-Toe</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="fileInput"><h3 class="card-title">Choose a file to upload:</h3></label>
+                        <input type="file" class="form-control-file" id="fileInput" name="file">
+                    </div>
+                    <div class="btn-submit">
+                        <a href="/tic-tac-toe" class="btn btn-primary btn-block">Upload File</a>
+                    </div>
+                </form>
             </div>
-        {% endfor %}
+        </div>
     </div>
     <div id="game-status"></div>
     <!-- Add this pop-up HTML after the tic-tac-toe grid in index.html -->
-    <div id="mcq-popup" style="display: none;">
-        <div id="mcq-question"></div>
-        <input type="radio" name="mcq-option" id="optionA" value="A"> <label for="optionA" id="labelA"></label><br>
-        <input type="radio" name="mcq-option" id="optionB" value="B"> <label for="optionB" id="labelB"></label><br>
-        <input type="radio" name="mcq-option" id="optionC" value="C"> <label for="optionC" id="labelC"></label><br>
-        <input type="radio" name="mcq-option" id="optionD" value="D"> <label for="optionD" id="labelD"></label><br>
-        <button onclick="submitMCQAnswer()">Submit</button>
-        <button onclick="closeMCQPopup()">Cancel</button>
-    </div>
-
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>

@@ -22,7 +22,9 @@ function openMCQPopup(row, col) {
     })
     .then(response => response.json())
     .then(data => {
+        console.log("open Mcq popup")
         if (data.question) {
+            console.log("mcqPopUp")
             // Display MCQ question in a pop-up
             var question = data.question;
             var optionA = data.options[0];
