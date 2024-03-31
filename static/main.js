@@ -8,6 +8,7 @@ $(document).ready(function() {
         
         // Open pop-up with MCQ
         openMCQPopup(row, col);
+        makeMove(row, col);
     });
 });
 
@@ -44,7 +45,7 @@ function openMCQPopup(row, col) {
             $('#optionD').val(optionD);
             $('#mcq-popup').attr('data-row',data.row)
             $('#mcq-popup').attr('data-col',data.column)
-            $('mcq-popup').attr('data-ans',data.ans)
+            $('#mcq-popup').attr('data-ans',data.ans)
             console.log(data.ans)
             $('#mcq-popup').show();
         } else {
@@ -85,29 +86,40 @@ function submitMCQAnswer() {
 }
 
 function makeMove(row, col) {
+    // Fetch data from server and update grid
     fetch('/make_move', {
         method: 'POST',
-        body: JSON.stringify({row: row, col: col}),
+        body: JSON.stringify({'row': row, 'col': col}),
         headers: {
             'Content-Type': 'application/json'
         }
     })
     .then(response => response.json())
     .then(data => {
+        // Handle server response and update grid
         if (data.success) {
             var cellId = "#cell-" + row + "-" + col;
             $(cellId).text(data.current_player);
             $('#game-status').text(data.current_player + "'s turn");
         } else if (data.winner) {
-            $('#game-status').text("Player " + data.winner +  "won!");
-            disableClicks();
+            $('#game-status').text("Player " + data.winner + " won!");
+            disableClicks(); // Disable further moves
         } else if (data.tied) {
             $('#game-status').text('Tied game!');
-            disableClicks();
+            disableClicks(); // Disable further moves
+        } else {
+            console.error("Unexpected response from server:", data);
         }
+    })
+    .catch(error => {
+        console.error('Error making move:', error);
     });
 }
 
+// Function to disable further clicks on cells
+function disableClicks() {
+    $('.cell').off('click');
+}
 // Function to close the MCQ pop-up
 function closeMCQPopup() {
     $('#mcq-popup').hide();
