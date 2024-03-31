@@ -79,11 +79,13 @@ function submitMCQAnswer() {
             makeMove(data.row, data.col);
         } else {
             // Display failure message or perform desired action
-            alert("Incorrect Answer. Try again!");
+            alert("Incorrect Answer...");
+            closeMCQPopup();
         }
     });
 }
 
+// function responsible to move the tic-tac-toe options.
 function makeMove(row, col) {
     fetch('/make_move', {
         method: 'POST',
