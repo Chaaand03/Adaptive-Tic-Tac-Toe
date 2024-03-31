@@ -1,5 +1,4 @@
 import os
-
 import PyPDF2
 import openai
 from dotenv import load_dotenv
