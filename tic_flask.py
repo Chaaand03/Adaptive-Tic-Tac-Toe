@@ -1,6 +1,7 @@
 from multiprocessing.connection import answer_challenge
 import os
 from flask import Flask, render_template, request, jsonify
+from requests import session
 from Game_logic import TicTacToeGame, Move, Player
 from pdf_parser import parse_pdf_questions
 from question_utils import get_question
@@ -11,6 +12,7 @@ game = TicTacToeGame()
 parsed_data = None
 correct_count = 0
 correct_answer = None
+filename = None
 
 @app.route('/')
 def index():
@@ -55,7 +57,6 @@ def submit_mcq_answer():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     global parsed_data
-    print("inside upload function")
     if 'file' not in request.files:
         return 'No file part'
 
@@ -65,13 +66,14 @@ def upload_file():
         return 'No selected file'
 
     if file:
-        # filename = file.filename
+        filename = file.filename
+        filename = filename[:-4] if filename.endswith('.pdf') else filename
         # file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         # file.save(file_path)
         # print('File saved:', file_path)
         parsed_data = parse_pdf_questions(file)
         # Process the file here as needed
-        return render_template('tic-tac-toe.html')
+        return render_template('tic-tac-toe.html', filename=filename)
     else:
         return "File couldn't be parsed"
         
@@ -97,8 +99,8 @@ def make_move():
     
 @app.route('/tic-tac-toe')
 def tic_tac_toe():
-    print("inside tictactoe function")
-    return render_template('tic-tac-toe.html')    
+    global filename
+    return render_template('tic-tac-toe.html', filename=filename)    
 
 if __name__ == "__main__":
     app.run(debug=True)

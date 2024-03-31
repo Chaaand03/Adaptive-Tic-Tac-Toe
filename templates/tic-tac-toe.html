@@ -12,21 +12,35 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
-            width: 75%; /* 3/4 of the width of the whole grid */
-            height: 75%; /* 3/4 of the height of the whole grid */
-            padding: 20px;
+            background-color: rgba(248, 209, 212, 0.959);
+            width: 50%; 
+            height: 50%; 
+            padding: 5px;
             border: 1px solid black;
             border-radius: 10px;
             display: none;
             z-index: 9999;
         }
+        #mcq-question{
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+        }
+        #mcq-options{
+            justify-content: center;
+            text-align: left;
+            align-items: center;
+        }
+        #mcq-popup .card-body {
+            font-size: 25px; /* Adjust the font size as needed */
+        }
+
     </style>
 
 </head>
 <body style="background-color: beige;">
     <div class="heading">
-        <h1>Tic-Tac-Toe Game</h1>
+        <h1>Tic-Tac-Toe {{ filename }} Game</h1>
     </div>    
     <div class="game">
         <div id="game-board">
@@ -40,14 +54,19 @@
         </div>
         <h3><div id="game-status"></div></h3>
     </div>
-    <div id="mcq-popup" style="display: none;">
-        <div id="mcq-question"></div>
-        <input type="radio" name="mcq-option" id="optionA" value="A"> <label for="optionA" id="labelA"></label><br>
-        <input type="radio" name="mcq-option" id="optionB" value="B"> <label for="optionB" id="labelB"></label><br>
-        <input type="radio" name="mcq-option" id="optionC" value="C"> <label for="optionC" id="labelC"></label><br>
-        <input type="radio" name="mcq-option" id="optionD" value="D"> <label for="optionD" id="labelD"></label><br>
-        <button onclick="submitMCQAnswer()">Submit</button>
-        <!-- <button onclick="closeMCQPopup()">Cancel</button> -->
+    <div id="mcq-popup" class="card">
+        <div class="card-body">
+            <div id="mcq-question"></div>
+            <div id="mcq-options">
+            <input type="radio" name="mcq-option" id="optionA" value="A"> <label for="optionA" id="labelA"></label><br>
+            <input type="radio" name="mcq-option" id="optionB" value="B"> <label for="optionB" id="labelB"></label><br>
+            <input type="radio" name="mcq-option" id="optionC" value="C"> <label for="optionC" id="labelC"></label><br>
+            <input type="radio" name="mcq-option" id="optionD" value="D"> <label for="optionD" id="labelD"></label><br>
+            </div>
+            <div class="text-center">
+            <button onclick="submitMCQAnswer()" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

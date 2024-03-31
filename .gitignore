@@ -3,6 +3,5 @@ tic_tac_toe_taipy.py
 .idea
 .DS_Store
 sample.pdf
-__pycache__/statistics.cpython-311.pyc
-
-
+__pycache__/
+ticTacToe.py
