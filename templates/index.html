@@ -18,6 +18,17 @@
         {% endfor %}
     </div>
     <div id="game-status"></div>
+    <!-- Add this pop-up HTML after the tic-tac-toe grid in index.html -->
+    <div id="mcq-popup" style="display: none;">
+        <div id="mcq-question"></div>
+        <input type="radio" name="mcq-option" id="optionA" value="A"> <label for="optionA" id="labelA"></label><br>
+        <input type="radio" name="mcq-option" id="optionB" value="B"> <label for="optionB" id="labelB"></label><br>
+        <input type="radio" name="mcq-option" id="optionC" value="C"> <label for="optionC" id="labelC"></label><br>
+        <input type="radio" name="mcq-option" id="optionD" value="D"> <label for="optionD" id="labelD"></label><br>
+        <button onclick="submitMCQAnswer()">Submit</button>
+        <button onclick="closeMCQPopup()">Cancel</button>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
