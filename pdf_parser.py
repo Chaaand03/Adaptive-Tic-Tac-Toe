@@ -3,6 +3,7 @@ import os
 import PyPDF2
 import openai
 from dotenv import load_dotenv
+import bs4 as bs
 from langchain_community.embeddings.openai import OpenAIEmbeddings
 from langchain.document_loaders import PyPDFLoader
 from langchain.vectorstores import FAISS
@@ -14,66 +15,85 @@ import os
 
 from openai import OpenAI
 
-load_dotenv()
+def parse_pdf_questions(pdf_file):
+    load_dotenv()
 
-# Read from the PDF file
-pdf_file = open('sample.pdf', 'rb')
-pdf_reader = PyPDF2.PdfReader(pdf_file)
-num_pages = len(pdf_reader.pages)
-detected_text = ''
+    # Read from the PDF file
 
-for page_num in range(num_pages):
-    page_obj = pdf_reader.pages[page_num]
-    detected_text += page_obj.extract_text() + '\n\n'
+    pdf_reader = PyPDF2.PdfReader(pdf_file)
+    num_pages = len(pdf_reader.pages)
+    detected_text = ''
 
-pdf_file.close()
+    for page_num in range(num_pages):
+        page_obj = pdf_reader.pages[page_num]
+        detected_text += page_obj.extract_text() + '\n\n'
 
-detected_text = """
-I had installed packages with python 3.9.7 but this version was causing issues so I switched to Python 3.10. When I installed the langhcain it was in python 3.9.7 directory. If yo run pip show langchain, you get this
-"""
+    pdf_file.close()
 
+    print(detected_text)
 
-open_ai_api_key = os.getenv("OPEN_AI_API_KEY")
+    open_ai_api_key = os.getenv("OPEN_AI_API_KEY")
 
-# text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-# texts = text_splitter.create_documents([detected_text])
-#
-# directory = 'index_store'
-# vector_index = FAISS.from_documents(texts, OpenAIEmbeddings())
-# vector_index.save_local(directory)
-#
-# vector_index = FAISS.load_local('index_store', OpenAIEmbeddings())
-# retriever = vector_index.as_retriever(search_type="similarity", search_kwargs={"k":6})
-# qa_interface = RetrievalQA.from_chain_type(llm=ChatOpenAI(openai_api_key=open_ai_api_key), chain_type="stuff", retriever=retriever, return_source_documents=True)
-#
-# response = qa_interface(
-#     "List some questions from the content"
-# )
+    # text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    # texts = text_splitter.create_documents([detected_text])
+    #
+    # directory = 'index_store'
+    # vector_index = FAISS.from_documents(texts, OpenAIEmbeddings())
+    # vector_index.save_local(directory)
+    #
+    # vector_index = FAISS.load_local('index_store', OpenAIEmbeddings())
+    # retriever = vector_index.as_retriever(search_type="similarity", search_kwargs={"k":6})
+    # qa_interface = RetrievalQA.from_chain_type(llm=ChatOpenAI(openai_api_key=open_ai_api_key), chain_type="stuff", retriever=retriever, return_source_documents=True)
+    #
+    # response = qa_interface(
+    #     "List some questions from the content"
+    # )
 
+    system_msg = ""
 
+    query = """
+    Generate 5 each easy , medium and difficult multiple choice questions from the above content. Give in HTML format along with questions having data-question attribute true and answers having the data-attribute set to true for correct answer
+    """
 
-system_msg = ""
+    open_ai_api_key = os.getenv("OPEN_AI_API_KEY")
+    openai.api_key = open_ai_api_key
 
-query = """
-summarize content.
-"""
+    user_msg = detected_text + "\n\n" + query
 
-open_ai_api_key = os.getenv("OPEN_AI_API_KEY")
-openai.api_key = open_ai_api_key
+    print(open_ai_api_key)
+    client = OpenAI(
+        # This is the default and can be omitted
+        api_key=open_ai_api_key,
+    )
 
-user_msg = detected_text + "\n\n" + query
+    # response = client.chat.completions.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "user", "content": "What is your name?"},
+    #     ],
+    # )
 
-print(open_ai_api_key)
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=open_ai_api_key,
-)
+    response = ""
 
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "user", "content": "What is your name?"},
-    ],
-)
+    soup = bs.BeautifulSoup(response, 'lxml')
+    questions = soup.find_all(attrs={"data-question": True})
+    questions_text = []
+    for item in questions:
+        questions_text.append(item.text.strip())
 
-print(response)
+    answers_text = []
+    correct_answers_text = []
+
+    answers = soup.select("[data-answer]")
+    for item in answers:
+        answers_text.append(item.text.strip())
+        if item["data-answer"] == "true":
+            correct_answers_text.append(item.text.strip())
+
+    data = {}
+    data.questions = questions_text
+    data.answers = answers_text
+    data.correct_answers = correct_answers_text
+
+    return data
+
