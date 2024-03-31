@@ -12,14 +12,15 @@ def get_question(parsed_data,correct_count):
     else:
         random_number = random.randint(10,14)
 
-    data.question = parsed_data.questions[random_number]
+    data["question"] = parsed_data["questions"][random_number]
     options = []
     start_index = random_number * 4
-    options.append(parsed_data.answers[start_index])
-    options.append(parsed_data.answers[start_index + 1])
-    options.append(parsed_data.answers[start_index + 2])
-    options.append(parsed_data.answers[start_index + 3])
-    data.options = options
+    options.append(parsed_data["answers"][start_index])
+    options.append(parsed_data["answers"][start_index + 1])
+    options.append(parsed_data["answers"][start_index + 2])
+    options.append(parsed_data["answers"][start_index + 3])
+    data["options"] = options
+    data['ans'] = parsed_data["correct_answers"][random_number]
 
     return data
 

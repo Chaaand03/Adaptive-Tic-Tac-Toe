@@ -45,11 +45,15 @@
                         <input type="file" class="form-control-file" id="fileInput" name="file">
                     </div>
                     <div class="btn-submit">
-                        <a href="/tic-tac-toe" class="btn btn-primary btn-block">Upload File</a>
+                        <button type="submit" href="/tic-tac-toe" class="btn btn-primary btn-block">Upload File</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <div id="game-status"></div>
+    <!-- Add this pop-up HTML after the tic-tac-toe grid in index.html -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

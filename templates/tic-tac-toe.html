@@ -6,6 +6,22 @@
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #mcq-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            width: 75%; /* 3/4 of the width of the whole grid */
+            height: 75%; /* 3/4 of the height of the whole grid */
+            padding: 20px;
+            border: 1px solid black;
+            border-radius: 10px;
+            display: none;
+            z-index: 9999;
+        }
+    </style>
 
 </head>
 <body style="background-color: beige;">
@@ -23,6 +39,15 @@
             {% endfor %}
         </div>
         <h3><div id="game-status"></div></h3>
+    </div>
+    <div id="mcq-popup" style="display: none;">
+        <div id="mcq-question"></div>
+        <input type="radio" name="mcq-option" id="optionA" value="A"> <label for="optionA" id="labelA"></label><br>
+        <input type="radio" name="mcq-option" id="optionB" value="B"> <label for="optionB" id="labelB"></label><br>
+        <input type="radio" name="mcq-option" id="optionC" value="C"> <label for="optionC" id="labelC"></label><br>
+        <input type="radio" name="mcq-option" id="optionD" value="D"> <label for="optionD" id="labelD"></label><br>
+        <button onclick="submitMCQAnswer()">Submit</button>
+        <!-- <button onclick="closeMCQPopup()">Cancel</button> -->
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
