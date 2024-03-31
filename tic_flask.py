@@ -9,6 +9,9 @@ game = TicTacToeGame()
 def index():
     return render_template('index.html')
 
+@app.route('/tic-tac-toe')
+def tic_tac_toe():
+    return render_template('tic-tac-toe.html')
 
 @app.route('/make_move', methods=['POST'])
 def make_move():
