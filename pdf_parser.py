@@ -68,7 +68,7 @@ def parse_pdf_questions(pdf_file):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": "What is your name?"},
+            {"role": "user", "content": query},
         ],
     )
 
