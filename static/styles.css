@@ -1,13 +1,14 @@
-/* styles.css */
 body {
-    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Make sure the body fills the entire viewport height */
+    margin: 0; /* Remove default margin */
 }
-
 h1 {
     text-align: center;
 }
 
-#game-board {
+.game-board {
     display: flex;
     flex-direction: column;
 }
@@ -17,18 +18,30 @@ h1 {
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border: 2px solid black;
-    font-size: 3em;
+    font-size: 6em;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
 
-#game-status {
+.game-status {
+    align-items: center;
     text-align: center;
-    margin-top: 20px;
-    font-size: 1.5em;
+    padding-top: 20px;
+}
+
+.game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.heading {
+    text-align: center; /* Center the text */
+    margin-top: 70px; /* Add space between the heading and the game */
+    padding-bottom: 20px;
 }

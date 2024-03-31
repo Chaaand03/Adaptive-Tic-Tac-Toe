@@ -6,25 +6,12 @@
     <title>Tic-Tac-Toe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: beige;
-        }
-        .game{
-            align-items: center;
-            margin-left: 820px;
-            margin-top: 200px;
-        }
-        .heading{
-            padding-top: 100px;
-            text-align: center;
-        }
-    </style>
+
 </head>
-<body>
+<body style="background-color: beige;">
     <div class="heading">
         <h1>Tic-Tac-Toe Game</h1>
-    </div>
+    </div>    
     <div class="game">
         <div id="game-board">
             {% for row in range(3) %}
@@ -35,7 +22,7 @@
             </div>
             {% endfor %}
         </div>
-        <div id="game-status"></div>
+        <h3><div id="game-status"></div></h3>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
